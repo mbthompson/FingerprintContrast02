@@ -1,0 +1,1632 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red127\green127\blue0;\red127\green0\blue127;\red0\green127\blue0;
+\red0\green127\blue127;\red0\green0\blue127;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww22340\viewh16400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 global
+\b0 \cf0  training_cond, QFMT_short_A_list, QFMT_short_B_list, QFMT_training_list, condition_list, subjectNum, gender, age, experience, expStartTime, dataPath, evSeq, QFMT_short_matches_latent_path, QFMT_short_matches_tenprint_path, QFMT_short_nonmatches_latent_path, QFMT_short_nonmatches_tenprint_path, training_matches_diag_path, training_matches_nondiag_path, training_matches_orig_path, training_nonmatches_diag_path, training_nonmatches_nondiag_path, training_nonmatches_orig_path, seqCnt, timeStartedMakeRating, monkey\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 on
+\b0  createEvSeq\
+   
+\b \cf2 put
+\b0 \cf0  \cf3 empty\cf0  \cf3 into\cf0  evSeq\
+   \
+   
+\b \cf4 --get filepaths to load images and export data\
+\pard\pardeftab720\partightenfactor0
+
+\b0 \cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDelimiter\cf0  \cf3 to\cf0  \cf6 "/"\
+\cf0    
+\b \cf2 get
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 this\cf0  \cf3 stack\
+\cf0    
+\b \cf2 delete
+\b0 \cf0  \cf3 the\cf0  \cf3 last\cf0  \cf3 item\cf0  \cf3 of\cf0  it\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/data/"\cf0  \cf3 into\cf0  dataPath\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/QFMT-short/matches/latent/"\cf0  \cf3 into\cf0  QFMT_short_matches_latent_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/QFMT-short/matches/tenprint/"\cf0  \cf3 into\cf0  QFMT_short_matches_tenprint_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/QFMT-short/nonmatches/latent/"\cf0  \cf3 into\cf0  QFMT_short_nonmatches_latent_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/QFMT-short/nonmatches/tenprint/"\cf0  \cf3 into\cf0  QFMT_short_nonmatches_tenprint_path\
+   \
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/matches/diag/"\cf0  \cf3 into\cf0  training_matches_diag_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/matches/nondiag/"\cf0  \cf3 into\cf0  training_matches_nondiag_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/matches/orig/"\cf0  \cf3 into\cf0  training_matches_orig_path\
+   \
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/nonmatches/diag/"\cf0  \cf3 into\cf0  training_nonmatches_diag_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/nonmatches/nondiag/"\cf0  \cf3 into\cf0  training_nonmatches_nondiag_path\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/images/training/nonmatches/orig/"\cf0  \cf3 into\cf0  training_nonmatches_orig_path\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0    \
+   
+\b \cf2 put
+\b0 \cf0  \cf3 line\cf0  \cf6 1\cf0  \cf3 to\cf0  \cf6 85\cf0  \cf3 of\cf0  QFMT_training_list \cf3 into\cf0  QFMT_training_list_matches\
+   
+\b \cf2 put
+\b0 \cf0  \cf3 line\cf0  \cf6 86\cf0  \cf3 to\cf0  \cf6 170\cf0  \cf3 of\cf0  QFMT_training_list \cf3 into\cf0  QFMT_training_list_nonmatches\
+   \
+   
+\b \cf2 put
+\b0 \cf0  scramble(QFMT_training_list_matches) \cf3 into\cf0  QFMT_training_list_matches\
+   
+\b \cf2 put
+\b0 \cf0  scramble(QFMT_training_list_nonmatches) \cf3 into\cf0  QFMT_training_list_nonmatches\
+   \
+   
+\b \cf2 put
+\b0 \cf0  \cf6 120\cf0  \cf3 into\cf0  numTrainingTrials 
+\b \cf4 -- here's where we specify the total number of training trials\
+
+\b0 \cf0    \
+   
+\b \cf2 put
+\b0 \cf0  \cf3 line\cf0  \cf6 1\cf0  \cf3 to\cf0  numTrainingTrials/\cf6 2\cf0  \cf3 of\cf0  QFMT_training_list_matches&\cf3 linefeed\cf0 &\cf3 line\cf0  \cf6 1\cf0  \cf3 to\cf0  numTrainingTrials/\cf6 2\cf0  \cf3 of\cf0  QFMT_training_list_nonmatches \cf3 into\cf0  QFMT_training_list\
+   \
+   
+\b \cf2 put
+\b0 \cf0  scramble(QFMT_short_A_list) \cf3 into\cf0  QFMT_short_A_list\
+   
+\b \cf2 put
+\b0 \cf0  scramble(QFMT_short_B_list) \cf3 into\cf0  QFMT_short_B_list\
+   
+\b \cf2 put
+\b0 \cf0  scramble(QFMT_training_list) \cf3 into\cf0  QFMT_training_list\
+   \
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0    
+\b \cf2 put
+\b0 \cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  subjectNum \cf3 of\cf0  condition_list \cf3 into\cf0  QFMT_order\
+   
+\b if
+\b0  QFMT_order = \cf6 "AB"\cf0  
+\b then\
+
+\b0       
+\b \cf2 put
+\b0 \cf0  QFMT_short_A_list&\cf3 linefeed\cf0 &QFMT_training_list&\cf3 linefeed\cf0 &QFMT_short_B_list \cf3 into\cf0  evSeq\
+   
+\b else
+\b0  
+\b \cf4 -- BA\
+
+\b0 \cf0       
+\b \cf2 put
+\b0 \cf0  QFMT_short_B_list&\cf3 linefeed\cf0 &QFMT_training_list&\cf3 linefeed\cf0 &QFMT_short_A_list \cf3 into\cf0  evSeq\
+   
+\b end
+\b0  
+\b if\
+
+\b0    \
+   
+\b \cf2 put
+\b0 \cf0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  subjectNum \cf3 of\cf0  condition_list \cf3 into\cf0  training_cond\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  createEvSeq\
+\
+
+\b on
+\b0  startEvSeq\
+   stopAllPending\
+   
+\b \cf2 set
+\b0 \cf0  \cf5 lockscreen\cf0  \cf3 to\cf0  \cf3 true\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0    
+\b if
+\b0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt-1 \cf3 of\cf0  evSeq \cf3 contains\cf0  \cf6 "QFMT-short"\cf0  \cf3 and\cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 "training"\cf0  
+\b then\
+
+\b0       showTrainingInst\
+   
+\b end
+\b0  
+\b if\
+
+\b0    
+\b if
+\b0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt-1 \cf3 of\cf0  evSeq = \cf6 "training"\cf0  \cf3 and\cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq \cf3 contains\cf0  \cf6 "QFMT-short"\cf0  
+\b then\
+
+\b0       showPosttestInst\
+   
+\b end
+\b0  
+\b if\
+
+\b0    
+\b if
+\b0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt evSeq \cf3 is\cf0  \cf3 empty\cf0  
+\b then\
+
+\b0       doOut\
+      
+\b exit
+\b0  startEvSeq\
+   
+\b end
+\b0  
+\b if\
+
+\b0    
+\b if
+\b0  \cf3 char\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 "Q"\cf0  
+\b then
+\b0  
+\b \cf4 -- it's a QFMT-short trial\
+
+\b0 \cf0       
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 "match"\cf0  
+\b then\
+
+\b0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imageLeft"\cf0  \cf3 to\cf0  QFMT_short_matches_latent_path&\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imageRight"\cf0  \cf3 to\cf0  QFMT_short_matches_tenprint_path&\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+      
+\b else
+\b0  \
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imageLeft"\cf0  \cf3 to\cf0  QFMT_short_nonmatches_latent_path&\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imageRight"\cf0  \cf3 to\cf0  QFMT_short_nonmatches_tenprint_path&\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+      
+\b end
+\b0  
+\b if\
+
+\b0       
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imageLeft"\
+\cf0       
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imageRight"\
+\cf0    
+\b else
+\b0  
+\b \cf4 -- it's a training trial\
+
+\b0 \cf0       
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 "match"\cf0  
+\b then\
+
+\b0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+      
+\b else
+\b0  \
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+      
+\b end
+\b0  
+\b if\
+
+\b0       
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0    
+\b end
+\b0  
+\b if\
+
+\b0    \
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0    
+\b \cf2 show
+\b0 \cf0  \cf3 grp\cf0  \cf6 "taskGrp"\
+\cf0    
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "ratingLabel"\
+\cf0    
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+   
+\b \cf2 set
+\b0 \cf0  \cf5 lockscreen\cf0  \cf3 to\cf0  \cf3 false\
+\cf0    \
+   
+\b \cf4 -- send hideImages to me in 5 seconds\
+
+\b0 \cf0    \
+   
+\b \cf4 --   if monkey=0 then\
+
+\b0 \cf0    
+\b \cf4 --      send hideImages to me in 5 seconds\
+
+\b0 \cf0    
+\b \cf4 --   else\
+
+\b0 \cf0    
+\b \cf4 --      send hideImages to me in 1 millisecond\
+
+\b0 \cf0    
+\b \cf4 --   end if\
+\pard\pardeftab720\partightenfactor0
+\cf0 end
+\b0  startEvSeq\
+\
+
+\b on
+\b0  showTrainingInst\
+   
+\b switch
+\b0  training_cond\
+      
+\b case
+\b0  \cf6 "both"\
+\pard\pardeftab720\partightenfactor0
+\cf0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDelimiter\cf0  \cf3 to\cf0  \cf6 "/"\
+\cf0          
+\b \cf2 get
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 this\cf0  \cf3 stack\
+\cf0          
+\b \cf2 delete
+\b0 \cf0  \cf3 the\cf0  \cf3 last\cf0  \cf3 item\cf0  \cf3 of\cf0  it\
+         
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/instructions/"\cf0  \cf3 into\cf0  instPath\
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 player\cf0  \cf6 "inst"\cf0  \cf3 to\cf0  instPath&\cf6 "Luke-training-inst-both.mp4"\
+\cf0          
+\b \cf2 show
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 start
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 break\
+
+\b0 \cf0       
+\b case
+\b0  \cf6 "other"\
+\cf0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDelimiter\cf0  \cf3 to\cf0  \cf6 "/"\
+\cf0          
+\b \cf2 get
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 this\cf0  \cf3 stack\
+\cf0          
+\b \cf2 delete
+\b0 \cf0  \cf3 the\cf0  \cf3 last\cf0  \cf3 item\cf0  \cf3 of\cf0  it\
+         
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/instructions/"\cf0  \cf3 into\cf0  instPath\
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 player\cf0  \cf6 "inst"\cf0  \cf3 to\cf0  instPath&\cf6 "Luke-training-inst-other.mp4"\
+\cf0          
+\b \cf2 show
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 start
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 break\
+
+\b0 \cf0       
+\b case
+\b0  \cf6 "control"\
+\cf0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDelimiter\cf0  \cf3 to\cf0  \cf6 "/"\
+\cf0          
+\b \cf2 get
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 this\cf0  \cf3 stack\
+\cf0          
+\b \cf2 delete
+\b0 \cf0  \cf3 the\cf0  \cf3 last\cf0  \cf3 item\cf0  \cf3 of\cf0  it\
+         
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/instructions/"\cf0  \cf3 into\cf0  instPath\
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 player\cf0  \cf6 "inst"\cf0  \cf3 to\cf0  instPath&\cf6 "Luke-training-inst-control.mp4"\
+\cf0          
+\b \cf2 show
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 start
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0          
+\b \cf2 break\
+
+\b0 \cf0    
+\b end
+\b0  
+\b switch\
+end
+\b0  showTrainingInst\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 on
+\b0  showPosttestInst\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemDelimiter\cf0  \cf3 to\cf0  \cf6 "/"\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 get
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 this\cf0  \cf3 stack\
+\cf0    
+\b \cf2 delete
+\b0 \cf0  \cf3 the\cf0  \cf3 last\cf0  \cf3 item\cf0  \cf3 of\cf0  it\
+   
+\b \cf2 put
+\b0 \cf0  it&\cf6 "/instructions/"\cf0  \cf3 into\cf0  instPath\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 player\cf0  \cf6 "inst"\cf0  \cf3 to\cf0  instPath&\cf6 "QFMT-posttest-inst.mp4"\
+\cf0    
+\b \cf2 show
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\cf0    
+\b \cf2 start
+\b0 \cf0  \cf3 player\cf0  \cf6 "inst"\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  showPosttestInst\
+   \
+
+\b on
+\b0  hideImages\
+   
+\b \cf2 hide
+\b0 \cf0  \cf3 image\cf0  \cf6 "imageLeft"\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 image\cf0  \cf6 "imageRight"\
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  hideImages\
+\
+
+\b on
+\b0  recordRating\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemdel\cf0  \cf3 to\cf0  \cf3 tab\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 false\
+\cf0    
+\b if
+\b0  \cf3 the\cf0  \cf5 number\cf0  \cf3 of\cf0  \cf3 items\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 3\cf0  
+\b then
+\b0  
+\b \cf4 -- the subject has only made one rating\
+
+\b0 \cf0       \
+      
+\b if
+\b0  \cf3 char\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq = \cf6 "Q"\cf0  
+\b then
+\b0  
+\b \cf4 -- it's a QFMT-short trial\
+
+\b0 \cf0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemdel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf3 tab\cf0 &\cf3 the\cf0  \cf3 milliseconds\cf0 -timeStartedMakeRating \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b if
+\b0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 >\cf6 6.5\cf0  
+\b then
+\b0  
+\b \cf4 -- if they say "same"\
+
+\b0 \cf0             
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+            
+\b else
+\b0  
+\b \cf4 -- but they don't match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+            
+\b end
+\b0  
+\b if\
+
+\b0          
+\b else
+\b0  
+\b \cf4 -- if they say "different"\
+
+\b0 \cf0             
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+            
+\b else
+\b0  
+\b \cf4 -- but they don't match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+            
+\b end
+\b0  
+\b if\
+
+\b0          
+\b end
+\b0  
+\b if\
+
+\b0          
+\b \cf2 send
+\b0 \cf0  hideRatingGrp \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 2000\cf0  \cf3 milliseconds\
+\cf0       
+\b else
+\b0  
+\b \cf4 -- it's a training trial\
+
+\b0 \cf0          \
+         
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 effectRate\cf0  \cf3 to\cf0  \cf6 50\
+\cf0          
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemdel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf3 tab\cf0 &\cf3 the\cf0  \cf3 milliseconds\cf0 -timeStartedMakeRating \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         \
+         
+\b if
+\b0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 >\cf6 6.5\cf0  
+\b then
+\b0  
+\b \cf4 -- if they say "same"\
+
+\b0 \cf0             
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+               \
+               
+\b switch
+\b0  training_cond\
+                  
+\b case
+\b0  \cf6 "both"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider both possibilities that the prints came from the same person..."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "...but also from different people."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "other"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider the possibility that the prints came from different people."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "control"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Take some time to consider your decision."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+               
+\b end
+\b0  
+\b switch\
+
+\b0                \
+            
+\b else
+\b0  
+\b \cf4 -- but they don't match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+               \
+               
+\b switch
+\b0  training_cond\
+                  
+\b case
+\b0  \cf6 "both"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider both possibilities that the prints came from the same person..."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "...but also from different people."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "other"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider the possibility that the prints came from different people."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "control"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Take some time to consider your decision."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+               
+\b end
+\b0  
+\b switch\
+
+\b0                \
+            
+\b end
+\b0  
+\b if\
+
+\b0             \
+         
+\b else
+\b0  
+\b \cf4 -- if they say "different"\
+
+\b0 \cf0             \
+            
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+               \
+               
+\b switch
+\b0  training_cond\
+                  
+\b case
+\b0  \cf6 "both"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider both possibilities that the prints came from different people..."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "...but also from the same person."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "other"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider the possibility that the prints came from the same person."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_matches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "control"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Take some time to consider your decision."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+               
+\b end
+\b0  
+\b switch\
+
+\b0                \
+            
+\b else
+\b0  
+\b \cf4 -- and they don't match\
+
+\b0 \cf0                
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+               \
+               
+\b switch
+\b0  training_cond\
+                  
+\b case
+\b0  \cf6 "both"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider both possibilities that the prints came from different people..."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_nondiag_path&\cf6 "nondiag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "...but also from the same person."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "other"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Different."\cf0 &\cf3 linefeed\cf0 &\cf6 "Consider the possibility that the prints came from the same person."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_diag_path&\cf6 "diag-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 filename\cf0  \cf3 of\cf0  \cf3 image\cf0  \cf6 "imagePair"\cf0  \cf3 to\cf0  training_nonmatches_orig_path&\cf6 "orig-"\cf0 &\cf3 item\cf0  \cf6 3\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+                  
+\b case
+\b0  \cf6 "control"\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 wait
+\b0 \cf0  \cf6 1500\cf0  \cf3 milliseconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Take some time to consider your decision."\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 wait
+\b0 \cf0  \cf6 5\cf0  \cf3 seconds\
+\cf0                      \
+                     
+\b \cf2 put
+\b0 \cf0  \cf6 "You said: "\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf6 " - Same."\cf0 &\cf3 linefeed\cf0 &\cf6 "Would you like to adjust your rating?"\cf0  \cf3 into\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 textStyle\cf0  \cf3 of\cf0  \cf3 word\cf0  \cf6 3\cf0  \cf3 to\cf0  \cf6 5\cf0  \cf3 of\cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\cf0  \cf3 to\cf0  bold\
+                     
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 true\
+\cf0                      
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 zero\
+\cf0                      
+\b \cf2 show
+\b0 \cf0  \cf3 image\cf0  \cf6 "imagePair"\
+\cf0                      
+\b \cf2 put
+\b0 \cf0  \cf3 the\cf0  \cf3 milliseconds\cf0  \cf3 into\cf0  timeStartedMakeRating\
+                     
+\b \cf2 break\
+
+\b0 \cf0                      \
+               
+\b end
+\b0  
+\b switch\
+
+\b0             
+\b end
+\b0  
+\b if\
+
+\b0          
+\b end
+\b0  
+\b if\
+
+\b0       
+\b end
+\b0  
+\b if\
+
+\b0    
+\b else\
+
+\b0       recordRating2\
+   
+\b end
+\b0  
+\b if\
+end
+\b0  recordRating\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 on
+\b0  recordRating2\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemdel\cf0  \cf3 to\cf0  \cf3 tab\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 enabled\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0  \cf3 to\cf0  \cf3 false\
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 effectRate\cf0  \cf3 to\cf0  \cf6 50\
+\cf0    
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 itemdel\cf0  \cf3 to\cf0  \cf3 tab\
+\cf0    
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 &\cf3 tab\cf0 &\cf3 the\cf0  \cf3 milliseconds\cf0 -timeStartedMakeRating \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+   
+\b if
+\b0  \cf3 the\cf0  \cf5 hilitedButton\cf0  \cf3 of\cf0  \cf3 grp\cf0  \cf6 "taskGrp"\cf0 >\cf6 6.5\cf0  
+\b then
+\b0  
+\b \cf4 -- if they say "same"\
+
+\b0 \cf0       
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 show
+\b0 \cf0  \cf3 btn\cf0  \cf6 "correct"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 open
+\b0 \cf0  \cf3 with\cf0  \cf3 sound\cf0  \cf6 "correct.wav"\
+\cf0          
+\b \cf2 send
+\b0 \cf0  hideCorrect \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 750\cf0  \cf3 milliseconds\
+\cf0       
+\b else
+\b0  
+\b \cf4 -- but they don't match\
+
+\b0 \cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 show
+\b0 \cf0  \cf3 btn\cf0  \cf6 "wrong"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 open
+\b0 \cf0  \cf3 with\cf0  \cf3 sound\cf0  \cf6 "wrong.wav"\
+\cf0          
+\b \cf2 send
+\b0 \cf0  hideWrong \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 750\cf0  \cf3 milliseconds\
+\cf0       
+\b end
+\b0  
+\b if\
+
+\b0    
+\b else\
+
+\b0       
+\b if
+\b0  \cf3 item\cf0  \cf6 2\cf0  \cf3 of\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq=\cf6 "match"\cf0  
+\b then
+\b0  
+\b \cf4 -- and they match\
+
+\b0 \cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "0"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 show
+\b0 \cf0  \cf3 btn\cf0  \cf6 "wrong"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 open
+\b0 \cf0  \cf3 with\cf0  \cf3 sound\cf0  \cf6 "wrong.wav"\
+\cf0          
+\b \cf2 send
+\b0 \cf0  hideWrong \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 750\cf0  \cf3 milliseconds\
+\cf0       
+\b else
+\b0  
+\b \cf4 -- but they don't match\
+
+\b0 \cf0          
+\b \cf2 put
+\b0 \cf0  \cf3 tab\cf0 &\cf6 "1"\cf0  \cf3 after\cf0  \cf3 line\cf0  seqCnt \cf3 of\cf0  evSeq\
+         
+\b \cf2 show
+\b0 \cf0  \cf3 btn\cf0  \cf6 "correct"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 open
+\b0 \cf0  \cf3 with\cf0  \cf3 sound\cf0  \cf6 "correct.wav"\
+\cf0          
+\b \cf2 send
+\b0 \cf0  hideCorrect \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 750\cf0  \cf3 milliseconds\
+\cf0       
+\b end
+\b0  
+\b if\
+
+\b0    
+\b end
+\b0  
+\b if\
+
+\b0    
+\b \cf2 send
+\b0 \cf0  hideRatingGrp \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 2000\cf0  \cf3 milliseconds\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  recordRating2\
+   \
+   \
+
+\b on
+\b0  hideCorrect\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 effectRate\cf0  \cf3 to\cf0  \cf6 50\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 btn\cf0  \cf6 "correct"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 close\
+\pard\pardeftab720\partightenfactor0
+\cf0 end
+\b0  hideCorrect\
+\
+
+\b on
+\b0  hideWrong\
+   
+\b \cf2 set
+\b0 \cf0  \cf3 the\cf0  \cf5 effectRate\cf0  \cf3 to\cf0  \cf6 50\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 btn\cf0  \cf6 "wrong"\cf0  \cf3 with\cf0  
+\b \cf2 visual
+\b0 \cf0  \cf3 effect\cf0  \cf6 "zoom"\cf0  
+\b \cf2 close\
+\pard\pardeftab720\partightenfactor0
+\cf0 end
+\b0  hideWrong\
+\
+
+\b on
+\b0  hideRatingGrp\
+   
+\b \cf2 add
+\b0 \cf0  \cf6 1\cf0  \cf3 to\cf0  seqCnt\
+   hideImages\
+   
+\b \cf2 hide
+\b0 \cf0  \cf3 grp\cf0  \cf6 "taskGrp"\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 fld\cf0  \cf6 "ratingLabel"\
+\cf0    
+\b \cf2 hide
+\b0 \cf0  \cf3 fld\cf0  \cf6 "feedbackLabel"\
+\cf0    startEvSeq\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  hideRatingGrp\
+\
+
+\b on
+\b0  stopAllPending\
+   
+\b repeat
+\b0  \cf3 for\cf0  \cf3 each\cf0  \cf3 line\cf0  aLine \cf3 in\cf0  \cf3 the\cf0  \cf3 pendingmessages\
+\pard\pardeftab720\partightenfactor0
+\cf0       
+\b \cf2 cancel
+\b0 \cf0  \cf3 item\cf0  \cf6 1\cf0  \cf3 of\cf0  aLine\
+   
+\b end
+\b0  
+\b repeat\
+end
+\b0  stopAllPending\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 on
+\b0  doOut\
+   
+\b \cf2 show
+\b0 \cf0  \cf3 fld\cf0  \cf6 "doneExp"\
+\pard\pardeftab720\partightenfactor0
+\cf0    
+\b \cf2 put
+\b0 \cf0  subjectNum&\cf6 "_"\cf0 &\cf6 "lukeGaoExp1-v1"\cf0 &\cf6 "_"\cf0 &\cf3 the\cf0  \cf3 ticks\cf0  \cf3 into\cf0  fname\
+   
+\b \cf2 put
+\b0 \cf0  \cf6 "Differential Processing Experiment"\cf0 &\cf3 linefeed\cf0 &\cf6 "Coded by Jason Tangen on 14 August 2018"\cf0 &\cf3 linefeed\cf0 &\cf6 "Text File:"\cf0 &\cf3 tab\cf0 &fname&\cf3 linefeed\cf0 &\cf6 "Training Condition:"\cf0 &\cf3 tab\cf0 &training_cond&\cf3 linefeed\cf0 &\cf6 "QFMT Counterbalancing Order:"\cf0 &\cf3 tab\cf0 &QFMT_order&\cf3 linefeed\cf0 &&\cf3 linefeed\cf0 &\cf6 "Sex:"\cf0 &\cf3 tab\cf0 &gender&\cf3 linefeed\cf0 &\cf6 "Age:"\cf0 &\cf3 tab\cf0 &age&\cf3 linefeed\cf0 &\cf6 "Formal experience with fingerprints:"\cf0 &\cf3 tab\cf0 &experience&\cf3 linefeed\cf0 &\cf3 linefeed\cf0 &\cf6 "Experiment Started:"\cf0 &\cf3 tab\cf0 &expStartTime&\cf3 linefeed\cf0 &\cf6 "Experiment Finished:"\cf0 &\cf3 tab\cf0 &\cf3 the\cf0  \cf5 long\cf0  \cf3 date\cf0 &\cf3 tab\cf0 &\cf3 the\cf0  \cf5 long\cf0  \cf3 time\cf0 &\cf3 linefeed\cf0 &\cf3 linefeed\cf0 &\cf6 "Trial Sequence (as presented)"\cf0 &\cf3 linefeed\cf0 &\cf6 "Phase"\cf0 &\cf3 tab\cf0 &\cf6 "Trial Type"\cf0 &\cf3 tab\cf0 &\cf6 "Print Name"\cf0 &\cf3 tab\cf0 &\cf6 "Rating 1 (1: Sure Different - 12: Sure Same)"\cf0 &\cf3 tab\cf0 &\cf6 "Response Time 1 (ms)"\cf0 &\cf3 tab\cf0 &\cf6 "(In)correct 1 (0: Incorrect, 1: Correct)"\cf0 &\cf3 tab\cf0 &\cf6 "Rating 2 (1: Sure Different - 12: Sure Same)"\cf0 &\cf3 tab\cf0 &\cf6 "Response Time 2 (ms)"\cf0 &\cf3 tab\cf0 &\cf6 "(In)correct 2 (0: Incorrect, 1: Correct)"\cf0 &\cf3 linefeed\cf0 &evSeq \cf3 after\cf0  outVar\
+   
+\b \cf4 -------------------------\
+
+\b0 \cf0    
+\b \cf2 put
+\b0 \cf0  outVar \cf3 into\cf0  \cf3 url\cf0  (\cf6 "file:"\cf0 &dataPath&fname&\cf6 ".txt"\cf0 )\
+   
+\b \cf2 send
+\b0 \cf0  quitExp \cf3 to\cf0  \cf3 me\cf0  \cf3 in\cf0  \cf6 5\cf0  \cf3 seconds\
+\pard\pardeftab720\partightenfactor0
+
+\b \cf0 end
+\b0  doOut\
+\
+
+\b on
+\b0  quitExp\
+   
+\b \cf2 lock
+\b0 \cf0  \cf3 messages\cf0  \
+   
+\b \cf2 quit\
+\cf0 end
+\b0  quitExp\
+}
